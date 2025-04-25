@@ -158,4 +158,3 @@ export function Registration() {
     </>
   );
 }
-git add .  git commit -m 'mod'  git push origin main  npm run build  npm run deploy

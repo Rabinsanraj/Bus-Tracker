@@ -28,9 +28,9 @@ export function NavBar() {
           <Link to="/" className="w-0"><i className="bx bx-bus ms-3 text-white fs-2 p-2 rounded-circle" style={{ backgroundColor: "#FF8C00" }}></i></Link>
           <Link className="navbar-brand fs-3 ms-2 fw-bold" style={{ color: "#FF8C00", textShadow: "3px 3px 5px black" }} to="/">GBT</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-            onClick={() => setExpanded(!expanded)} aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon text-ganger"></span>
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"  
+            onClick={() => setExpanded(!expanded)} aria-label="Toggle navigation" style={{backgroundColor:"#FF8C00"}}>
+            <i className="bx bx-menu text-white"style={{fontSize:"35px"}}></i>
           </button>
           <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`} id="navbarNav">
             <ul className="navbar-nav ms-auto" style={{ textShadow: "3px 3px 5px black" }}>

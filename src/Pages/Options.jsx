@@ -1,9 +1,16 @@
-export function Options(){
-    return(
+import { Cards } from "../Components/FullCompo"
+
+export function Options() {
+    return (
         <>
-        <div className="container text-center">
-            <p className="text-white">This is a options page</p>
-        </div>
+            <div className="container text-white text-center mt-3">
+                <div className="row mx-auto my-auto">
+                    <Cards icon={<i className="bx bx-transfer-alt"></i>} title="Report" link="#" />
+                    <Cards icon={<i className="bx bx-message-dots"></i>} title="Chat Box" link="#" />
+                    <Cards icon={<i className="bx bx-envelope"></i>} title="Mail" link="#" />
+                    <Cards icon={<i className="bx bx-note"></i>} title="Suggestion Box" link="#" />
+                </div>
+            </div>
         </>
     )
 }

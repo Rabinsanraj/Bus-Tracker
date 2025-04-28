@@ -20,22 +20,18 @@ export function Report() {
             <h1>This is a Report page</h1>
             <form onSubmit={handleSubmit}>
                 <div className="card mx-auto p-3" style={{ maxWidth: "500px", width: "100%" }}>
-                    <input
-                        className="form-control mb-3 fw-bold"
+                    <input className="form-control mb-3 fw-bold"
                         type="text"
-                        placeholder="Enter your Problem"
+                        placeholder="Enter your Name"
                         value={problemTitle}
                         onChange={(e) => setProblemTitle(e.target.value)}
-                        required
-                    />
-                    <textarea
-                        className="form-control mb-3 fw-bold"
+                        required/>
+                    <textarea className="form-control mb-3 fw-bold"
                         rows="6"
                         placeholder="Enter your Problem"
                         value={problemDescription}
                         onChange={(e) => setProblemDescription(e.target.value)}
-                        required
-                    ></textarea>
+                        required></textarea>
                     <button type="submit" className="btn btn-primary w-100">SUBMIT</button>
                 </div>
             </form>

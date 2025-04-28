@@ -31,7 +31,7 @@ function generateCaptcha() {
         if (counter >=3) {
           clearInterval(intervalRef.current);
         }
-      }, 1000); // regenerate every 1 second for 5 seconds
+      }, 1000); // regenerate every 1 second for 1 seconds
     };
   
     const handleSubmit = (e) => {

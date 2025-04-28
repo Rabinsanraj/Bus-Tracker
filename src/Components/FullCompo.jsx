@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Registration } from "../Pages/Registration"
 import { Options } from "../Pages/Options"
 import { Contact } from "../Pages/Contact"
+import { Help, Mail, Report, Suggestion } from "./ContactSub";
+import { Check, Notify, TicketPrice, Track } from "./OptionsSub";
+
 
 
 export const ScrollToTop = () => {
@@ -54,6 +57,18 @@ export function NavBar() {
         <Route path="/register" element={<Registration />} />
         <Route path="/options" element={<Options />} />
         <Route path="/contact" element={<Contact />} />
+
+        {/* contact Rutes */}
+        <Route path="/report" element={<Report />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/mail" element={<Mail />} />
+        <Route path="/suggestion" element={<Suggestion />} />
+
+        {/* Options Rutes */}
+        <Route path="/track" element={<Track />} />
+        <Route path="/check" element={<Check />} />
+        <Route path="/notify" element={<Notify />} />
+        <Route path="/ticketprice" element={<TicketPrice />} />
       </Routes>
     </HashRouter>
 
@@ -88,11 +103,11 @@ export function Cards(props) {
     <>
       <div className="col-sm-12 col-md-6 col-lg-3 pb-3">
         <Link to={props.link} style={{textDecoration:"none"}}>
-          <div className="card" style={{ backgroundColor: "#FF8C00",
+          <div className="card w-auto" style={{ backgroundColor: "#FF8C00",
             textShadow: "2px 2px 5px black" }}>
             <div className="card-body">
               <h1 className="card-title text-white fw-bold">{props.icon}</h1>
-              <h5 className="card-title text-white fw-bold">{props.title}</h5>
+              <h4 className="card-title text-white fw-bold">{props.title}</h4>
             </div>
           </div>
         </Link>

@@ -4,7 +4,7 @@ import { Registration } from "../Pages/Registration"
 import { Options } from "../Pages/Options"
 import { Contact } from "../Pages/Contact"
 import { Help, Mail, Report, Feedback } from "./ContactSub";
-import { Check, Notify, TicketPrice, Track } from "./OptionsSub";
+import { AllRutes, Notify, TicketPrice, Track } from "./OptionsSub";
 
 
 
@@ -66,7 +66,7 @@ export function NavBar() {
 
         {/* Options Rutes */}
         <Route path="/track" element={<Track />} />
-        <Route path="/check" element={<Check />} />
+        <Route path="/allrutes" element={<AllRutes />} />
         <Route path="/notify" element={<Notify />} />
         <Route path="/ticketprice" element={<TicketPrice />} />
       </Routes>

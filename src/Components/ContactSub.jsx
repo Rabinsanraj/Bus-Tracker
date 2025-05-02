@@ -18,8 +18,11 @@ export function Report() {
     return (
         <div className="container text-white text-center mt-3">
             <h1>This is a Report page</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="card mx-auto p-3" style={{ maxWidth: "500px", width: "100%" }}>
+            <form onSubmit={handleSubmit} style={{}}>
+                <div className="card mx-auto p-3" style={{
+                    backgroundColor: "#804600",
+                    maxWidth: "500px", width: "100%"
+                }}>
                     <input className="form-control mb-3 fw-bold"
                         type="text"
                         placeholder="Enter Problem Title"
@@ -32,7 +35,8 @@ export function Report() {
                         value={problemDescription}
                         onChange={(e) => setProblemDescription(e.target.value)}
                         required></textarea>
-                    <button type="submit" className="btn btn-primary w-100">SUBMIT</button>
+                    <button type="submit" className="btn w-100 text-white fs-5 fw-bold"
+                        style={{ backgroundColor: "#FF8C00" }}>SUBMIT</button>
                 </div>
             </form>
         </div>
@@ -46,8 +50,6 @@ export function Help() {
         <>
             <div className="container text-white text-center mt-3">
                 <h1>This is a Help page</h1>
-
-
             </div>
         </>
     )
@@ -79,8 +81,8 @@ export function Feedback() {
             alert('Please fill in both fields before submitting.');
             return;
         }
-        else{
-            
+        else {
+
         }
 
         alert('Feedback submitted successfully!');
@@ -93,24 +95,24 @@ export function Feedback() {
                 <h1>This is a Feedback page</h1>
                 <form className="row g-4" onSubmit={handleSubmit}>
                     <div className="col-12 col-md-6">
-                        <div className="card mx-auto p-3" style={{ maxWidth: "500px", width: "100%" }}>
-                            <textarea className="form-control mb-3 fw-bold" rows="6"
-                                placeholder="Enter your Problem Advantages"
+                        <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
+                            <textarea className="form-control fw-bold fs-5 fw-bold" rows="6"
+                                placeholder="Enter Advantages"
                                 value={problemAdvantages}
                                 onChange={handleAdvantagesChange} required></textarea>
                         </div>
                     </div>
 
                     <div className="col-12 col-md-6">
-                        <div className="card mx-auto p-3" style={{ maxWidth: "500px", width: "100%" }}>
-                            <textarea className="form-control mb-3 fw-bold" rows="6"
-                                placeholder="Enter your Problem Disadvantages"
+                        <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
+                            <textarea className="form-control fw-bold fs-5 fw-bold" rows="6"
+                                placeholder="Enter Disadvantages"
                                 value={problemDisadvantages}
                                 onChange={handleDisadvantagesChange} required></textarea>
                         </div>
                     </div>
                 </form>
-                <button type="submit" className="btn btn-primary w-25 mt-5">SUBMIT</button>
+                <button type="submit" className="btn w-25 mt-4 text-white fs-5 fw-bold" style={{ backgroundColor: "#FF8C00" }}>SUBMIT</button>
             </div>
         </>
     );

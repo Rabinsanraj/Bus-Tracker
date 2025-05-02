@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Registration } from "../Pages/Registration"
 import { Options } from "../Pages/Options"
 import { Contact } from "../Pages/Contact"
-import { Help, Mail, Report, Suggestion } from "./ContactSub";
+import { Help, Mail, Report, Feedback } from "./ContactSub";
 import { Check, Notify, TicketPrice, Track } from "./OptionsSub";
 
 
@@ -62,7 +62,7 @@ export function NavBar() {
         <Route path="/report" element={<Report />} />
         <Route path="/help" element={<Help />} />
         <Route path="/mail" element={<Mail />} />
-        <Route path="/suggestion" element={<Suggestion />} />
+        <Route path="/feedback" element={<Feedback />} />
 
         {/* Options Rutes */}
         <Route path="/track" element={<Track />} />

@@ -9,7 +9,7 @@ export function Contact() {
                     <Cards icon={<i className="bx bx-transfer-alt"></i>} title="Report" link="/report" />
                     <Cards icon={<i className="bx bx-message-dots"></i>} title="Help" link="/help" />
                     <Cards icon={<i className="bx bx-envelope"></i>} title="Mail" link="/mail" />
-                    <Cards icon={<i className="bx bx-note"></i>} title="Suggestion" link="/suggestion" />
+                    <Cards icon={<i className="bx bx-note"></i>} title="Suggestion" link="/feedback" />
                 </div>
             </div>
         </>

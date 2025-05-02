@@ -7,11 +7,11 @@ export function Report() {
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         alert("Your report is submitted")
         setProblemTitle("");
         setProblemDescription("");
-      
+
         navigate("/options");
     };
 
@@ -22,13 +22,13 @@ export function Report() {
                 <div className="card mx-auto p-3" style={{ maxWidth: "500px", width: "100%" }}>
                     <input className="form-control mb-3 fw-bold"
                         type="text"
-                        placeholder="Enter your Name"
+                        placeholder="Enter Problem Title"
                         value={problemTitle}
                         onChange={(e) => setProblemTitle(e.target.value)}
-                        required/>
+                        required />
                     <textarea className="form-control mb-3 fw-bold"
                         rows="6"
-                        placeholder="Enter your Problem"
+                        placeholder="Enter your Problem Description"
                         value={problemDescription}
                         onChange={(e) => setProblemDescription(e.target.value)}
                         required></textarea>
@@ -46,6 +46,8 @@ export function Help() {
         <>
             <div className="container text-white text-center mt-3">
                 <h1>This is a Help page</h1>
+
+
             </div>
         </>
     )
@@ -62,12 +64,54 @@ export function Mail() {
 }
 
 
-export function Suggestion() {
+export function Feedback() {
+    const [problemAdvantages, setProblemAdvantages] = useState('');
+    const [problemDisadvantages, setProblemDisadvantages] = useState('');
+    const navigate = useNavigate();
+
+    const handleAdvantagesChange = (e) => setProblemAdvantages(e.target.value);
+    const handleDisadvantagesChange = (e) => setProblemDisadvantages(e.target.value);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!problemAdvantages.trim() || !problemDisadvantages.trim()) {
+            alert('Please fill in both fields before submitting.');
+            return;
+        }
+        else{
+            
+        }
+
+        alert('Feedback submitted successfully!');
+        navigate('/options');
+    };
+
     return (
         <>
             <div className="container text-white text-center mt-3">
-                <h1>This is a Suggestion page</h1>
+                <h1>This is a Feedback page</h1>
+                <form className="row g-4" onSubmit={handleSubmit}>
+                    <div className="col-12 col-md-6">
+                        <div className="card mx-auto p-3" style={{ maxWidth: "500px", width: "100%" }}>
+                            <textarea className="form-control mb-3 fw-bold" rows="6"
+                                placeholder="Enter your Problem Advantages"
+                                value={problemAdvantages}
+                                onChange={handleAdvantagesChange} required></textarea>
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <div className="card mx-auto p-3" style={{ maxWidth: "500px", width: "100%" }}>
+                            <textarea className="form-control mb-3 fw-bold" rows="6"
+                                placeholder="Enter your Problem Disadvantages"
+                                value={problemDisadvantages}
+                                onChange={handleDisadvantagesChange} required></textarea>
+                        </div>
+                    </div>
+                </form>
+                <button type="submit" className="btn btn-primary w-25 mt-5">SUBMIT</button>
             </div>
         </>
-    )
-} 
+    );
+}

@@ -65,7 +65,6 @@ export function Mail() {
     )
 }
 
-
 export function Feedback() {
     const [problemAdvantages, setProblemAdvantages] = useState('');
     const [problemDisadvantages, setProblemDisadvantages] = useState('');
@@ -81,39 +80,38 @@ export function Feedback() {
             alert('Please fill in both fields before submitting.');
             return;
         }
-        else {
-
-        }
 
         alert('Feedback submitted successfully!');
         navigate('/options');
     };
 
     return (
-        <>
-            <div className="container text-white text-center mt-3">
-                <h1>This is a Feedback page</h1>
-                <form className="row g-4" onSubmit={handleSubmit}>
-                    <div className="col-12 col-md-6">
-                        <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
-                            <textarea className="form-control fw-bold fs-5 fw-bold" rows="6"
-                                placeholder="Enter Advantages"
-                                value={problemAdvantages}
-                                onChange={handleAdvantagesChange} required></textarea>
-                        </div>
+        <div className="container text-white text-center mt-3">
+            <h1>This is a Feedback page</h1>
+            <form className="row g-4" onSubmit={handleSubmit}>
+                <div className="col-12 col-md-6">
+                    <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
+                        <textarea className="form-control fw-bold fs-5" rows="6"
+                            placeholder="Enter Advantages" value={problemAdvantages}
+                            onChange={handleAdvantagesChange} required></textarea>
                     </div>
+                </div>
 
-                    <div className="col-12 col-md-6">
-                        <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
-                            <textarea className="form-control fw-bold fs-5 fw-bold" rows="6"
-                                placeholder="Enter Disadvantages"
-                                value={problemDisadvantages}
-                                onChange={handleDisadvantagesChange} required></textarea>
-                        </div>
+                <div className="col-12 col-md-6">
+                    <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
+                        <textarea className="form-control fw-bold fs-5" rows="6"
+                            placeholder="Enter Disadvantages" value={problemDisadvantages}
+                            onChange={handleDisadvantagesChange} required></textarea>
                     </div>
-                </form>
-                <button type="submit" className="btn w-25 mt-4 text-white fs-5 fw-bold" style={{ backgroundColor: "#FF8C00" }}>SUBMIT</button>
-            </div>
-        </>
+                </div>
+
+                <div className="text-center mt-5">
+                    <button type="submit" className="btn w-25 text-white fs-5 fw-bold"
+                        style={{ backgroundColor: "#FF8C00" }}>
+                        SUBMIT
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 }

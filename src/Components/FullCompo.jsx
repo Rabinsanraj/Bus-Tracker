@@ -15,7 +15,7 @@ export const ScrollToTop = () => {
   return null;
 };
 
-// Glow effect CSS (can be moved to external CSS file)
+// Glow CSS (injected into head)
 const glowStyle = `
   @keyframes glow {
     from {
@@ -33,32 +33,17 @@ const glowStyle = `
 
 export function NavBar() {
   const [expanded, setExpanded] = useState(false);
-  const [glow, setGlow] = useState(false);
 
   const handleNav = () => {
     setExpanded(false);
   };
 
+  // Inject glow style into <head>
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = glowStyle;
     document.head.appendChild(style);
-
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const fullHeight = document.body.scrollHeight;
-
-      if (scrollTop + windowHeight >= fullHeight - 10) {
-        setGlow(true);
-      } else {
-        setGlow(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       document.head.removeChild(style);
     };
   }, []);
@@ -70,37 +55,19 @@ export function NavBar() {
           <Link to="/" className="w-0">
             <i className="bx bx-bus ms-3 text-white fs-2 p-2 rounded-circle" style={{ backgroundColor: "#FF8C00" }}></i>
           </Link>
-          <Link className="navbar-brand fs-3 ms-2 fw-bold" style={{ color: "#FF8C00", textShadow: "3px 3px 5px black" }} to="/">
-            GBT
-          </Link>
-          <button className={`navbar-toggler ${glow ? "glow-effect" : ""}`}
-            type="button"data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"aria-controls="navbarNav"
-            aria-expanded="false"onClick={() => setExpanded(!expanded)}
-            aria-label="Toggle navigation"style={{ backgroundColor: "#FF8C00" }}>
+          <Link className="navbar-brand fs-3 ms-2 fw-bold" style={{ color: "#FF8C00", textShadow: "3px 3px 5px black" }} to="/">GBT</Link>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            onClick={() => setExpanded(!expanded)} aria-label="Toggle navigation" style={{ backgroundColor: "#FF8C00" }}>
             <i className="bx bx-menu text-white" style={{ fontSize: "35px" }}></i>
           </button>
           <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`} id="navbarNav">
             <ul className="navbar-nav ms-auto" style={{ textShadow: "3px 3px 5px black" }}>
               <li className="nav-item">
-                <Link className="nav-link me-5 fs-5 text-light fw-bold" onClick={handleNav} to="/options">
-                  Options
-                </Link>
-              </li>
-              <li className="nav-item ">
-                <Link className="nav-link me-5 fs-5 text-light fw-bold" onClick={handleNav} to="/contact">
-                  Contact US
-                </Link>
+                <Link className="nav-link me-5 fs-5 text-light fw-bold" onClick={handleNav} to="/options">Options</Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className={`btn fs-5 text-light fw-bold rounded-pill ps-4 pe-4 me-4 ${glow ? "glow-effect" : ""}`}
-                  style={{ backgroundColor: "#FF8C00" }}
-                  onClick={handleNav}
-                  to="/register"
-                >
-                  Register
-                </Link>
+                <Link className="nav-link me-5 fs-5 text-light fw-bold" onClick={handleNav} to="/contact">Contact US</Link>
               </li>
             </ul>
           </div>
@@ -114,13 +81,13 @@ export function NavBar() {
         <Route path="/options" element={<Options />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* Contact Routes */}
+        {/* Contact Sub-Routes */}
         <Route path="/report" element={<Report />} />
         <Route path="/help" element={<Help />} />
         <Route path="/mail" element={<Mail />} />
         <Route path="/feedback" element={<Feedback />} />
 
-        {/* Options Routes */}
+        {/* Options Sub-Routes */}
         <Route path="/track" element={<Track />} />
         <Route path="/allrutes" element={<AllRutes />} />
         <Route path="/notify" element={<Notify />} />
@@ -130,18 +97,48 @@ export function NavBar() {
   );
 }
 
-// Sample Intro component
+// Intro Component with glow on scroll bottom
 export function Intro() {
+  const [glow, setGlow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const fullHeight = document.documentElement.scrollHeight;
+
+      if (scrollTop + windowHeight >= fullHeight - 10) {
+        setGlow(true);
+      } else {
+        setGlow(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div>
       <p className="container fs-4 text-white text-center pt-5">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui sunt excepturi facilis et ex labore, veritatis fugit eius pariatur
-        repudiandae ullam placeat voluptate eveniet architecto. Nam beatae ad maiores nisi ut, voluptatem dolorum. Quidem quam, ad commodi
-        voluptatibus fuga vero modi ipsam nesciunt blanditiis illo corrupti nam tenetur? Odio ratione, atque dolorem cum ipsa esse, ullam
-        laudantium praesentium sapiente soluta amet magni eaque? Blanditiis soluta dolor cumque accusantium doloremque quaerat harum suscipit
-        ipsam! Quisquam neque minus placeat distinctio enim eum. Debitis soluta consequuntur ad optio facilis, nesciunt placeat minus aliquam
-        vitae, explicabo beatae blanditiis fugiat dolorum amet enim, incidunt qui.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui sunt
+        excepturi facilis et ex labore, veritatis fugit eius pariatur
+        repudiandae ullam placeat voluptate eveniet architecto. Nam beatae ad
+        maiores nisi ut, voluptatem dolorum. Quidem quam, ad commodi
+        voluptatibus fuga vero modi ipsam nesciunt blanditiis illo corrupti
+        nam tenetur? Odio ratione, atque dolorem cum ipsa esse, ullam
+        laudantium praesentium sapiente soluta amet magni eaque? Blanditiis
+        soluta dolor cumque accusantium doloremque quaerat harum suscipit
+        ipsam! Quisquam neque minus placeat distinctio enim eum. Debitis
+        soluta consequuntur ad optio facilis, nesciunt placeat minus aliquam
+        vitae, explicabo beatae blanditiis fugiat dolorum amet enim, incidunt
+        qui.
       </p>
+      <div className="container text-center mt-3 mb-5">
+        <Link className={`btn fs-5 text-light fw-bold rounded-pill ps-4 pe-4 me-4
+         ${glow ? "glow-effect" : ""}`}style={{ backgroundColor: "#FF8C00" }}
+          to="/register">Register</Link>
+      </div>
     </div>
   );
 }

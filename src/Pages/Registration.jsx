@@ -66,7 +66,7 @@ function generateCaptcha() {
                         <input type="text"className="form-control"placeholder="Enter Your Name"required/>
                            </div>
                            <div className="mb-2">
-                        <input type="number"className="form-control"placeholder="Enter Mobile Number"required/>
+                        <input type="text" pattern="[0-9]{10}" className="form-control" placeholder="Enter Mobile Number"required/>
                         </div>
                         {/* CAPTCHA */}
                         <div className="mb-3">
@@ -74,11 +74,12 @@ function generateCaptcha() {
                        <div className="mb-3" style={{backgroundColor: "#fff",padding: "10px",
                        textAlign: "center",fontWeight: "bold",fontSize: "20px",letterSpacing: "3px",
                        borderRadius: "5px",marginBottom: "10px",}}>{captcha}</div>
-                       <input type="text"className="form-control"placeholder="Enter the text shown above"
+                       <input type="text"className="form-control"
+                       placeholder="Enter the text shown above"
                        value={captchaInput}onChange={(e) => setCaptchaInput(e.target.value)}required/>
                        </div>
                        <button type="submit"className="btn fw-bold fs-5 text-white w-100"
-                        style={{ backgroundColor: "#FF8C00" }} onClick={handleSubmit}>Submit</button>
+                        style={{ backgroundColor: "#FF8C00" }}>Submit</button>
                         </form>
                         </div>
                     </div>

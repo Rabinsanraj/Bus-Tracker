@@ -119,8 +119,8 @@ export function Intro() {
   }, []);
 
   return (
-    <div>
-      <p className="container fs-4 text-white text-center pt-5">
+    <div className="container">
+      <p className="fs-5 text-white mt-3" style={{textAlign:"justify"}}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui sunt
         excepturi facilis et ex labore, veritatis fugit eius pariatur
         repudiandae ullam placeat voluptate eveniet architecto. Nam beatae ad

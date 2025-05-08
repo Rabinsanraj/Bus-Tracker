@@ -90,37 +90,25 @@ export function Report() {
             required
           />
 
-          {/* Email Field */}
-          <input
-            className="form-control w-75 mx-auto mb-3 fw-bold"
-            type="email"
-            placeholder="Enter Your Email"
-            value={reporterEmail}
-            onChange={(e) => setReporterEmail(e.target.value)}
-            required
-          />
-
-          {/* Verification Email Button */}
-          {!verificationEmailSent ? (
+          {/* Email Field with Verification Button */}
+          <div className="input-group mb-3 w-75 mx-auto">
+            <input
+              className="form-control fw-bold"
+              type="email"
+              placeholder="Enter Your Email"
+              value={reporterEmail}
+              onChange={(e) => setReporterEmail(e.target.value)}
+              required
+            />
             <button
-              type="button"
               className="btn btn-warning fw-bold"
+              type="button"
               onClick={sendVerificationEmail}
+              disabled={verificationEmailSent}
             >
-              Send Verification Email
+              {verificationEmailSent ? "Verification Sent" : "Send Verification Email"}
             </button>
-          ) : (
-            <div className="alert alert-info mt-3">
-              A verification email has been sent. Please verify your email to proceed.
-              <button
-                type="button"
-                className="btn btn-success mx-2"
-                onClick={checkEmailVerification}
-              >
-                Check Email Verification
-              </button>
-            </div>
-          )}
+          </div>
 
           {/* Problem Title Field */}
           <input
@@ -156,10 +144,6 @@ export function Report() {
   );
 }
 
-
-
-
-
 // ---------- Help Component ----------
 export function Help() {
   return (
@@ -181,15 +165,54 @@ export function Mail() {
 }
 
 // ---------- Feedback Component ----------
+
 export function Feedback() {
   const [problemAdvantages, setProblemAdvantages] = useState("");
   const [problemDisadvantages, setProblemDisadvantages] = useState("");
+  const [reporterEmail, setReporterEmail] = useState("");
+  const [verificationEmailSent, setVerificationEmailSent] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   const navigate = useNavigate();
 
   const feedbackCollection = collection(firestore, "feedback");
 
+  // Send verification email to the provided email
+  const sendVerificationEmail = async () => {
+    const actionCodeSettings = {
+      url: "http://localhost:3000/verify-email", // Replace with your website's verification URL
+      handleCodeInApp: true,
+    };
+
+    try {
+      await sendSignInLinkToEmail(auth, reporterEmail, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", reporterEmail); // Store email for future login
+      alert("Verification email sent to " + reporterEmail);
+      setVerificationEmailSent(true);
+    } catch (error) {
+      console.error("Error sending verification email:", error);
+      alert("Failed to send verification email. Please try again.");
+    }
+  };
+
+  // Check if email is verified
+  const checkEmailVerification = async () => {
+    const email = window.localStorage.getItem("emailForSignIn");
+    if (email && email === reporterEmail) {
+      setEmailVerified(true);
+      alert("Email verified successfully!");
+    } else {
+      alert("Please verify your email first.");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if email is verified before submitting
+    if (!emailVerified) {
+      alert("Please verify your email before submitting.");
+      return;
+    }
 
     if (!problemAdvantages.trim() || !problemDisadvantages.trim()) {
       alert("Please fill in both fields before submitting.");
@@ -200,7 +223,7 @@ export function Feedback() {
       await addDoc(feedbackCollection, {
         advantages: problemAdvantages,
         disadvantages: problemDisadvantages,
-        createdAt: new Date()
+        createdAt: new Date(),
       });
 
       alert("Feedback submitted successfully!");
@@ -216,6 +239,29 @@ export function Feedback() {
   return (
     <div className="container text-white text-center mt-3">
       <h1>This is a Feedback page</h1>
+
+      <div className="card mb-3 mx-auto" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
+        {/* Email Field with Verification Button */}
+        <div className="input-group m-3 w-75 mx-auto">
+          <input
+            className="form-control fw-bold"
+            type="email"
+            placeholder="Enter Your Email"
+            value={reporterEmail}
+            onChange={(e) => setReporterEmail(e.target.value)}
+            required
+          />
+          <button
+            className="btn btn-warning fw-bold"
+            type="button"
+            onClick={sendVerificationEmail}
+            disabled={verificationEmailSent}
+          >
+            {verificationEmailSent ? "Verified" : "Verify"}
+          </button>
+        </div>
+      </div>
+
       <form className="row g-4" onSubmit={handleSubmit}>
         <div className="col-12 col-md-6">
           <div

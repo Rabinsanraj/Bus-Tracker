@@ -1,35 +1,81 @@
+import { useState } from "react";
+import fetchIsOnWater from "../ReverceGeo";
+
 export function Track() {
+    const [currentLocation, setCurrentLocation] = useState("");
+
+    const getLocation = async () => {
+        try {
+            const data = await fetchIsOnWater();
+            // You can adjust this depending on the API response structure
+            const locationName = data?.address?.town || data?.address?.city || data?.address?.village || "Unknown";
+            setCurrentLocation(locationName);
+        } catch (error) {
+            console.error("Failed to get location:", error);
+            setCurrentLocation("Unavailable");
+        }
+    };
+
     return (
-        <>
-            <div className="container mt-5">
-                <div className="row justify-content-center">
-                    <div className="col-sm-12 col-md-6 col-lg-4">
-                        <div className="card p-1" style={{
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-sm-12 col-md-6 col-lg-4">
+                    <div
+                        className="card p-1"
+                        style={{
                             backgroundColor: "#804600",
-                            boxShadow: "5px 5px 10px black", borderRadius: "15px"
-                        }}>
-                            <div className="card-body">
-                                <h5 className="card-title fs-4 fw-bold text-center text-white mb-4">
-                                    TRACK YOUR BUS
-                                </h5>
-                                <form>
-                                    <div className="mb-4">
-                                        <input type="text" className="form-control" placeholder="Current Location" required />
-                                    </div>
-                                    <div className="mb-2">
-                                        <input type="text" className="form-control" placeholder="Drop Location" required />
-                                    </div>
-                                    <button type="submit" className="btn fw-bold w-100 mt-3 fs-5 text-white fs-5 fw-bold"
-                                        style={{ backgroundColor: "#FF8C00" }}>Search</button>
-                                </form>
-                            </div>
+                            boxShadow: "5px 5px 10px black",
+                            borderRadius: "15px",
+                        }}
+                    >
+                        <div className="card-body">
+                            <h5 className="card-title fs-4 fw-bold text-center text-white mb-4">
+                                TRACK YOUR BUS
+                            </h5>
+                            <form>
+                                <div className="mb-4 input-group">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Current Location"
+                                        value={currentLocation}
+                                        readOnly
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="btn btn-warning fw-bold"
+                                        onClick={getLocation}
+                                        title="Get Current Location"
+                                    >
+                                        📍
+                                    </button>
+                                </div>
+                                <div className="mb-2">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Drop Location"
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="btn fw-bold w-100 mt-3 fs-5 text-white"
+                                    style={{ backgroundColor: "#FF8C00" }}
+                                >
+                                    Search
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }
+
+
 
 export function Notify() {
     return (

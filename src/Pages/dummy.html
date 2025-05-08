@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+     let lat;
+     let lon;
+    const getLocation = () => {
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                lat= latitude;
+                lon= longitude;
+                console.log(lat,lon)
+            },
+            (error) => {
+                console.error("Error fetching location:", error);
+                console.log("Unable to retrieve your location.");
+               
+            }
+        );
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+       
+    }
+};
+getLocation()
+
+
+</script>
+</html>

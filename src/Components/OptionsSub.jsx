@@ -11,7 +11,7 @@ export function Track() {
             const locationName = data?.address?.town || data?.address?.city || data?.address?.village || "Unknown";
             setCurrentLocation(locationName);
         } catch (error) {
-            console.error("Failed to get location:", error);
+            alert.error("Failed to get location:", error);
             setCurrentLocation("Unavailable");
         }
     };

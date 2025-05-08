@@ -1,6 +1,5 @@
 import { HashRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Registration } from "../Pages/Registration";
 import { Options } from "../Pages/Options";
 import { Contact } from "../Pages/Contact";
 import { Help, Mail, Report, Feedback } from "./ContactSub";
@@ -15,22 +14,6 @@ export const ScrollToTop = () => {
   return null;
 };
 
-// Glow CSS (injected into head)
-const glowStyle = `
-  @keyframes glow {
-    from {
-      box-shadow: 0 0 10px #FF8C00;
-    }
-    to {
-      box-shadow: 0 0 20px 10px #FF8C00;
-    }
-  }
-
-  .glow-effect {
-    animation: glow 1s infinite alternate;
-  }
-`;
-
 export function NavBar() {
   const [expanded, setExpanded] = useState(false);
 
@@ -38,15 +21,6 @@ export function NavBar() {
     setExpanded(false);
   };
 
-  // Inject glow style into <head>
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.innerHTML = glowStyle;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
 
   return (
     <HashRouter>
@@ -77,7 +51,6 @@ export function NavBar() {
 
       <Routes>
         <Route path="/" element={<Intro />} />
-        <Route path="/register" element={<Registration />} />
         <Route path="/options" element={<Options />} />
         <Route path="/contact" element={<Contact />} />
 
@@ -134,11 +107,6 @@ export function Intro() {
         vitae, explicabo beatae blanditiis fugiat dolorum amet enim, incidunt
         qui.
       </p>
-      <div className="container text-center mt-3 mb-5">
-        <Link className={`btn fs-5 text-light fw-bold rounded-pill ps-4 pe-4 me-4
-         ${glow ? "glow-effect" : ""}`}style={{ backgroundColor: "#FF8C00" }}
-          to="/register">Register</Link>
-      </div>
     </div>
   );
 }

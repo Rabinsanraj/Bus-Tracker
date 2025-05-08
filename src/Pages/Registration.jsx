@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { firestore } from "../FireBase.config";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 
 function generateCaptcha() {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -25,19 +25,14 @@ export function Registration() {
 
   useEffect(() => {
     setCaptcha(generateCaptcha());
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+    return () => clearInterval(intervalRef.current);
   }, []);
 
   const regenerateCaptcha = () => {
     let counter = 0;
     intervalRef.current = setInterval(() => {
       setCaptcha(generateCaptcha());
-      counter++;
-      if (counter >= 3) {
-        clearInterval(intervalRef.current);
-      }
+      if (++counter >= 3) clearInterval(intervalRef.current);
     }, 1000);
   };
 
@@ -55,14 +50,22 @@ export function Registration() {
     const number = numberRef.current.value.trim();
 
     try {
+      const q = query(userCollection, where("number", "==", number));
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        alert("This mobile number is already registered.");
+        return;
+      }
+
       await addDoc(userCollection, { name, number });
       alert("Form submitted successfully!");
       navigate("/options");
       e.target.reset();
       setCaptcha(generateCaptcha());
       setCaptchaInput("");
-    } catch (e) {
-      console.error("Error adding document: ", e);
+    } catch (err) {
+      console.error("Error saving data:", err);
       alert("Error saving data. Please try again.");
     }
   };
@@ -89,7 +92,6 @@ export function Registration() {
                     className="form-control" ref={numberRef}
                     placeholder="Enter Mobile Number" required />
                 </div>
-                {/* CAPTCHA */}
                 <div className="mb-3">
                   <label className="form-label text-white fw-bold">Captcha</label>
                   <div className="mb-3" style={{

@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
 import { firestore } from "../FireBase.config"; // Ensure path is correct
 
-// ---------- Report Component ----------
 export function Report() {
+  const [reporterName, setReporterName] = useState("");
+  const [reporterNumber, setReporterNumber] = useState("");
   const [problemTitle, setProblemTitle] = useState("");
   const [problemDescription, setProblemDescription] = useState("");
+  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 
   const reportCollection = collection(firestore, "reports");
@@ -15,6 +17,8 @@ export function Report() {
     e.preventDefault();
     try {
       await addDoc(reportCollection, {
+        name: reporterName,
+        number: reporterNumber,
         title: problemTitle,
         description: problemDescription,
         createdAt: new Date()
@@ -30,42 +34,76 @@ export function Report() {
     }
   };
 
+  const handleSendOtp = () => {
+    if (reporterNumber.length === 10) {
+      alert("OTP sent to " + reporterNumber);
+      // TODO: Replace with real OTP logic
+    } else {
+      alert("Please enter a valid 10-digit number.");
+    }
+  };
+
+  const handleVerifyOtp = () => {
+    // Placeholder OTP verification logic
+    if (otp.trim() === "") {
+      alert("Please enter the OTP first.");
+    } else {
+      alert("OTP verified: " + otp);
+      // TODO: Add actual verification logic
+    }
+  };
+
   return (
     <div className="container text-white text-center mt-3">
       <h1>This is a Report page</h1>
       <form onSubmit={handleSubmit}>
-        <div
-          className="card mx-auto p-3"
-          style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}
-        >
-          <input
-            className="form-control mb-3 fw-bold"
-            type="text"
-            placeholder="Enter Problem Title"
-            value={problemTitle}
-            onChange={(e) => setProblemTitle(e.target.value)}
-            required
-          />
-          <textarea
-            className="form-control mb-3 fw-bold"
+        <div className="card mx-auto p-3"
+          style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
+
+          <input className="form-control w-75 mx-auto mb-3 fw-bold" type="text"
+            placeholder="Enter Your Name" value={reporterName}
+            onChange={(e) => setReporterName(e.target.value)} required/>
+
+          <div className="input-group w-75 mx-auto mb-3">
+            <input type="tel" className="form-control fw-bold"
+              placeholder="Enter Your Mobile No" value={reporterNumber}
+              maxLength={10} pattern="[0-9]{10}" onChange={(e) => {
+                const input = e.target.value.replace(/\D/g, "");
+                setReporterNumber(input);}} required/>
+            <button type="button"
+              className="btn btn-warning fw-bold" onClick={handleSendOtp}
+              disabled={reporterNumber.length !== 10}> Send OTP</button>
+          </div>
+          <div className="d-flex mx-auto mb-3">
+          <input type="text"
+            className="form-control w-50 mx-auto  mb-2"
+            placeholder="OTP" value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            required/>
+          <button type="button"
+            className="btn btn-success mx-auto fw-bold"
+            onClick={handleVerifyOtp}>Verify</button>
+          </div>
+          <input className="form-control mb-3 fw-bold" type="text"
+            placeholder="Enter Problem Title" value={problemTitle}
+            onChange={(e) => setProblemTitle(e.target.value)} required/>
+
+          <textarea className="form-control mb-3 fw-bold"
             rows="6"
             placeholder="Enter your Problem Description"
             value={problemDescription}
             onChange={(e) => setProblemDescription(e.target.value)}
-            required
-          ></textarea>
-          <button
-            type="submit"
-            className="btn w-100 text-white fs-5 fw-bold"
-            style={{ backgroundColor: "#FF8C00" }}
-          >
-            SUBMIT
-          </button>
+            required/>
+
+          <button type="submit" className="btn w-100 text-white fs-5 fw-bold"
+            style={{ backgroundColor: "#FF8C00" }}>SUBMIT</button>
         </div>
       </form>
     </div>
   );
 }
+
+
 
 // ---------- Help Component ----------
 export function Help() {

@@ -1,27 +1,65 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
-import { firestore } from "../FireBase.config"; // Ensure path is correct
+import { auth, firestore } from "../FireBase.config";
+import { sendSignInLinkToEmail } from "firebase/auth";
 
 export function Report() {
   const [reporterName, setReporterName] = useState("");
-  const [reporterNumber, setReporterNumber] = useState("");
+  const [reporterEmail, setReporterEmail] = useState("");
   const [problemTitle, setProblemTitle] = useState("");
   const [problemDescription, setProblemDescription] = useState("");
-  const [otp, setOtp] = useState("");
+  const [verificationEmailSent, setVerificationEmailSent] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   const navigate = useNavigate();
 
   const reportCollection = collection(firestore, "reports");
 
+  // Send verification email to the provided email
+  const sendVerificationEmail = async () => {
+    const actionCodeSettings = {
+      // This will open the verification email in the same window after clicking the link
+      url: "http://localhost:3000/verify-email", // Replace with your website's verification URL
+      handleCodeInApp: true,
+    };
+
+    try {
+      await sendSignInLinkToEmail(auth, reporterEmail, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", reporterEmail); // Store email for future login
+      alert("Verification email sent to " + reporterEmail);
+      setVerificationEmailSent(true);
+    } catch (error) {
+      console.error("Error sending verification email:", error);
+      alert("Failed to send verification email. Please try again.");
+    }
+  };
+
+  // Check if email is verified
+  const checkEmailVerification = async () => {
+    const email = window.localStorage.getItem("emailForSignIn");
+    if (email && email === reporterEmail) {
+      setEmailVerified(true);
+      alert("Email verified successfully!");
+    } else {
+      alert("Please verify your email first.");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!emailVerified) {
+      alert("Please verify your email before submitting.");
+      return;
+    }
+
     try {
       await addDoc(reportCollection, {
         name: reporterName,
-        number: reporterNumber,
+        email: reporterEmail,
         title: problemTitle,
         description: problemDescription,
-        createdAt: new Date()
+        createdAt: new Date(),
       });
 
       alert("Your report is submitted.");
@@ -34,74 +72,91 @@ export function Report() {
     }
   };
 
-  const handleSendOtp = () => {
-    if (reporterNumber.length === 10) {
-      alert("OTP sent to " + reporterNumber);
-      // TODO: Replace with real OTP logic
-    } else {
-      alert("Please enter a valid 10-digit number.");
-    }
-  };
-
-  const handleVerifyOtp = () => {
-    // Placeholder OTP verification logic
-    if (otp.trim() === "") {
-      alert("Please enter the OTP first.");
-    } else {
-      alert("OTP verified: " + otp);
-      // TODO: Add actual verification logic
-    }
-  };
-
   return (
     <div className="container text-white text-center mt-3">
       <h1>This is a Report page</h1>
       <form onSubmit={handleSubmit}>
-        <div className="card mx-auto p-3"
-          style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
+        <div
+          className="card mx-auto p-3"
+          style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}
+        >
+          {/* Name Field */}
+          <input
+            className="form-control w-75 mx-auto mb-3 fw-bold"
+            type="text"
+            placeholder="Enter Your Name"
+            value={reporterName}
+            onChange={(e) => setReporterName(e.target.value)}
+            required
+          />
 
-          <input className="form-control w-75 mx-auto mb-3 fw-bold" type="text"
-            placeholder="Enter Your Name" value={reporterName}
-            onChange={(e) => setReporterName(e.target.value)} required/>
+          {/* Email Field */}
+          <input
+            className="form-control w-75 mx-auto mb-3 fw-bold"
+            type="email"
+            placeholder="Enter Your Email"
+            value={reporterEmail}
+            onChange={(e) => setReporterEmail(e.target.value)}
+            required
+          />
 
-          <div className="input-group w-75 mx-auto mb-3">
-            <input type="tel" className="form-control fw-bold"
-              placeholder="Enter Your Mobile No" value={reporterNumber}
-              maxLength={10} pattern="[0-9]{10}" onChange={(e) => {
-                const input = e.target.value.replace(/\D/g, "");
-                setReporterNumber(input);}} required/>
-            <button type="button"
-              className="btn btn-warning fw-bold" onClick={handleSendOtp}
-              disabled={reporterNumber.length !== 10}> Send OTP</button>
-          </div>
-          <div className="d-flex mx-auto mb-3">
-          <input type="text"
-            className="form-control w-50 mx-auto  mb-2"
-            placeholder="OTP" value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            required/>
-          <button type="button"
-            className="btn btn-success mx-auto fw-bold"
-            onClick={handleVerifyOtp}>Verify</button>
-          </div>
-          <input className="form-control mb-3 fw-bold" type="text"
-            placeholder="Enter Problem Title" value={problemTitle}
-            onChange={(e) => setProblemTitle(e.target.value)} required/>
+          {/* Verification Email Button */}
+          {!verificationEmailSent ? (
+            <button
+              type="button"
+              className="btn btn-warning fw-bold"
+              onClick={sendVerificationEmail}
+            >
+              Send Verification Email
+            </button>
+          ) : (
+            <div className="alert alert-info mt-3">
+              A verification email has been sent. Please verify your email to proceed.
+              <button
+                type="button"
+                className="btn btn-success mx-2"
+                onClick={checkEmailVerification}
+              >
+                Check Email Verification
+              </button>
+            </div>
+          )}
 
-          <textarea className="form-control mb-3 fw-bold"
+          {/* Problem Title Field */}
+          <input
+            className="form-control mb-3 fw-bold"
+            type="text"
+            placeholder="Enter Problem Title"
+            value={problemTitle}
+            onChange={(e) => setProblemTitle(e.target.value)}
+            required
+          />
+
+          {/* Problem Description Field */}
+          <textarea
+            className="form-control mb-3 fw-bold"
             rows="6"
             placeholder="Enter your Problem Description"
             value={problemDescription}
             onChange={(e) => setProblemDescription(e.target.value)}
-            required/>
+            required
+          />
 
-          <button type="submit" className="btn w-100 text-white fs-5 fw-bold"
-            style={{ backgroundColor: "#FF8C00" }}>SUBMIT</button>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="btn w-100 text-white fs-5 fw-bold"
+            style={{ backgroundColor: "#FF8C00" }}
+          >
+            SUBMIT
+          </button>
         </div>
       </form>
     </div>
   );
 }
+
+
 
 
 

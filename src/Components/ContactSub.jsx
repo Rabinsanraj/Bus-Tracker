@@ -4,14 +4,13 @@ import { collection, addDoc } from "firebase/firestore";
 import { auth, firestore } from "../FireBase.config";
 import { sendSignInLinkToEmail } from "firebase/auth";
 
-// ---------------- Shared Email Verification Hook ----------------
 const useEmailVerification = (email) => {
   const [verificationSent, setVerificationSent] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
 
   const sendVerificationEmail = async () => {
     const actionCodeSettings = {
-      url: "http://localhost:3000/verify-email", // Replace with actual
+      url: "http://localhost:3000/verify-email",
       handleCodeInApp: true,
     };
 
@@ -39,7 +38,6 @@ const useEmailVerification = (email) => {
   return { verificationSent, emailVerified, sendVerificationEmail, checkEmailVerification };
 };
 
-// ---------------- Report Component ----------------
 export function Report() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -77,17 +75,16 @@ export function Report() {
     <div className="container text-white text-center mt-3">
       <h1>This is a Report page</h1>
       <form onSubmit={handleSubmit}>
-        <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
+        <div className="card mx-auto p-3 w-100" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
           <input
-            className="form-control w-75 mx-auto mb-3 fw-bold"
+            className="form-control mb-3 fw-bold"
             type="text"
             placeholder="Enter Your Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
-
-          <div className="input-group mb-3 w-75 mx-auto">
+          <div className="input-group mb-3">
             <input
               className="form-control fw-bold"
               type="email"
@@ -102,10 +99,9 @@ export function Report() {
               onClick={sendVerificationEmail}
               disabled={verificationSent}
             >
-              {verificationSent ? "Verification Sent" : "Send Verification Email"}
+              {verificationSent ? "Verified" : "Verify"}
             </button>
           </div>
-
           <input
             className="form-control mb-3 fw-bold"
             type="text"
@@ -114,7 +110,6 @@ export function Report() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-
           <textarea
             className="form-control mb-3 fw-bold"
             rows="6"
@@ -123,8 +118,7 @@ export function Report() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
-
-          <button type="submit" className="btn w-100 text-white fs-5 fw-bold" style={{ backgroundColor: "#FF8C00" }}>
+          <button type="submit" className="btn text-white fs-5 fw-bold w-100" style={{ backgroundColor: "#FF8C00" }}>
             SUBMIT
           </button>
         </div>
@@ -133,7 +127,6 @@ export function Report() {
   );
 }
 
-// ---------------- Help Component ----------------
 export function Help() {
   return (
     <div className="container text-white text-center mt-3">
@@ -142,18 +135,16 @@ export function Help() {
   );
 }
 
-// ---------------- Mail Component ----------------
 export function Mail() {
   return (
     <div className="container text-white text-center mt-3">
-      <h1 className="fs-6 fw-bold text-center">
+      <h1 className="fs-6 fw-bold">
         <i className="bx bx-envelope fs-3"></i> Easycar@gmail.com
       </h1>
     </div>
   );
 }
 
-// ---------------- Feedback Component ----------------
 export function Feedback() {
   const [advantages, setAdvantages] = useState("");
   const [disadvantages, setDisadvantages] = useState("");
@@ -188,46 +179,55 @@ export function Feedback() {
   return (
     <div className="container text-white text-center mt-3">
       <h1>This is a Feedback page</h1>
-
-
-
-      <form className="row g-4" onSubmit={handleSubmit}>
-        {[advantages, disadvantages].map((val, idx) => (
-          <div className="col-12 col-md-6" key={idx}>
-            <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
-              <textarea
-                className="form-control fw-bold fs-5"
-                rows="6"
-                placeholder={idx === 0 ? "Enter Advantages" : "Enter Disadvantages"}
-                value={idx === 0 ? advantages : disadvantages}
-                onChange={(e) => (idx === 0 ? setAdvantages(e.target.value) : setDisadvantages(e.target.value))}
-                required
-              />
-            </div>
-          </div>
-        ))}
-        <div className="card mb-3 mx-auto" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
-          <div className="input-group m-3 w-75 mx-auto">
-            <input
-              className="form-control fw-bold"
-              type="email"
-              placeholder="Enter Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+      <form className="row g-4 justify-content-center" onSubmit={handleSubmit}>
+        <div className="col-12 col-md-6">
+          <div className="card p-3" style={{ backgroundColor: "#804600" }}>
+            <textarea
+              className="form-control fw-bold fs-5"
+              rows="6"
+              placeholder="Enter Advantages"
+              value={advantages}
+              onChange={(e) => setAdvantages(e.target.value)}
               required
             />
-            <button
-              className="btn btn-warning fw-bold"
-              type="button"
-              onClick={sendVerificationEmail}
-              disabled={verificationSent}
-            >
-              {verificationSent ? "Verified" : "Verify"}
-            </button>
           </div>
         </div>
-        <div className="text-center mt-5">
-          <button type="submit" className="btn w-25 text-white fs-5 fw-bold" style={{ backgroundColor: "#FF8C00" }}>
+        <div className="col-12 col-md-6">
+          <div className="card p-3" style={{ backgroundColor: "#804600" }}>
+            <textarea
+              className="form-control fw-bold fs-5"
+              rows="6"
+              placeholder="Enter Disadvantages"
+              value={disadvantages}
+              onChange={(e) => setDisadvantages(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+        <div className="col-12">
+          <div className="card p-3 mx-auto" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
+            <div className="input-group">
+              <input
+                className="form-control fw-bold"
+                type="email"
+                placeholder="Enter Your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button
+                className="btn btn-warning fw-bold"
+                type="button"
+                onClick={sendVerificationEmail}
+                disabled={verificationSent}
+              >
+                {verificationSent ? "Verified" : "Verify"}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 text-center">
+          <button type="submit" className="btn text-white fs-5 fw-bold w-50" style={{ backgroundColor: "#FF8C00" }}>
             SUBMIT
           </button>
         </div>

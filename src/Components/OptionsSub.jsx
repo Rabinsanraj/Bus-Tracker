@@ -20,7 +20,6 @@ export function Track() {
     setLoading(true);
     try {
       const data = await fetchIsOnWater();
-      console.log(data);
       const locationName =
         data?.address?.road ||
         data?.address?.village ||
@@ -37,16 +36,16 @@ export function Track() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-4">
       <div className="row justify-content-center">
-        <div className="col-sm-12 col-md-6 col-lg-4">
-          <div className="card p-1" style={cardStyle}>
+        <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+          <div className="card p-4" style={cardStyle}>
             <div className="card-body">
               <h5 className="card-title fs-4 fw-bold text-center text-white mb-4">
                 TRACK YOUR BUS
               </h5>
               <form>
-                <div className="mb-4 input-group">
+                <div className="mb-3 input-group">
                   <input
                     type="text"
                     className="form-control"
@@ -63,17 +62,14 @@ export function Track() {
                     disabled={loading}
                   >
                     {loading ? (
-                      <span
-                        className="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
+                      <span className="spinner-border spinner-border-sm" />
                     ) : (
                       <ImLocation style={{ color: "red", fontSize: "21px" }} />
                     )}
                   </button>
                 </div>
-                <div className="mb-2">
+
+                <div className="mb-3">
                   <input
                     type="text"
                     className="form-control"
@@ -81,9 +77,10 @@ export function Track() {
                     required
                   />
                 </div>
+
                 <button
                   type="submit"
-                  className="btn fw-bold w-100 mt-3 fs-5 text-white"
+                  className="btn text-white fw-bold w-100 fs-5"
                   style={buttonStyle}
                 >
                   Search
@@ -99,16 +96,16 @@ export function Track() {
 
 export function Notify() {
   return (
-    <div className="container text-white text-center mt-3">
+    <div className="container mt-4">
       <div className="row justify-content-center">
-        <div className="col-sm-12 col-md-6 col-lg-4">
-          <div className="card p-1" style={cardStyle}>
+        <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+          <div className="card p-4 text-white" style={cardStyle}>
             <div className="card-body">
-              <h5 className="card-title fs-4 fw-bold text-white mb-4">
+              <h5 className="card-title fs-4 fw-bold text-center mb-4">
                 TRACK YOUR BUS
               </h5>
               <form>
-                <div className="mb-4">
+                <div className="mb-3">
                   <input
                     type="text"
                     className="form-control"
@@ -116,7 +113,7 @@ export function Notify() {
                     required
                   />
                 </div>
-                <div className="form-check mb-3 d-flex align-items-center gap-2 justify-content-start">
+                <div className="form-check d-flex align-items-center gap-2 mb-3">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -129,7 +126,7 @@ export function Notify() {
                 </div>
                 <button
                   type="submit"
-                  className="btn fw-bold w-100 mt-3 fs-5 text-white"
+                  className="btn text-white fw-bold w-100 fs-5"
                   style={buttonStyle}
                 >
                   Search
@@ -145,16 +142,24 @@ export function Notify() {
 
 export function TicketPrice() {
   return (
-    <div className="container text-white text-center mt-3">
-      <h1>This is a TicketPrice page</h1>
+    <div className="container text-white text-center mt-4">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8 col-lg-6">
+          <h1>This is a TicketPrice page</h1>
+        </div>
+      </div>
     </div>
   );
 }
 
 export function AllRutes() {
   return (
-    <div className="container text-white text-center mt-3">
-      <h1>This is an AllRutes page</h1>
+    <div className="container text-white text-center mt-4">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8 col-lg-6">
+          <h1>This is an AllRutes page</h1>
+        </div>
+      </div>
     </div>
   );
 }

@@ -4,40 +4,31 @@ import { collection, addDoc } from "firebase/firestore";
 import { auth, firestore } from "../FireBase.config";
 import { sendSignInLinkToEmail } from "firebase/auth";
 
-export function Report() {
-  const [reporterName, setReporterName] = useState("");
-  const [reporterEmail, setReporterEmail] = useState("");
-  const [problemTitle, setProblemTitle] = useState("");
-  const [problemDescription, setProblemDescription] = useState("");
-  const [verificationEmailSent, setVerificationEmailSent] = useState(false);
+// ---------------- Shared Email Verification Hook ----------------
+const useEmailVerification = (email) => {
+  const [verificationSent, setVerificationSent] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
-  const navigate = useNavigate();
 
-  const reportCollection = collection(firestore, "reports");
-
-  // Send verification email to the provided email
   const sendVerificationEmail = async () => {
     const actionCodeSettings = {
-      // This will open the verification email in the same window after clicking the link
-      url: "http://localhost:3000/verify-email", // Replace with your website's verification URL
+      url: "http://localhost:3000/verify-email", // Replace with actual
       handleCodeInApp: true,
     };
 
     try {
-      await sendSignInLinkToEmail(auth, reporterEmail, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", reporterEmail); // Store email for future login
-      alert("Verification email sent to " + reporterEmail);
-      setVerificationEmailSent(true);
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      alert("Verification email sent to " + email);
+      setVerificationSent(true);
     } catch (error) {
       console.error("Error sending verification email:", error);
       alert("Failed to send verification email. Please try again.");
     }
   };
 
-  // Check if email is verified
-  const checkEmailVerification = async () => {
-    const email = window.localStorage.getItem("emailForSignIn");
-    if (email && email === reporterEmail) {
+  const checkEmailVerification = () => {
+    const storedEmail = window.localStorage.getItem("emailForSignIn");
+    if (storedEmail && storedEmail === email) {
       setEmailVerified(true);
       alert("Email verified successfully!");
     } else {
@@ -45,26 +36,36 @@ export function Report() {
     }
   };
 
+  return { verificationSent, emailVerified, sendVerificationEmail, checkEmailVerification };
+};
+
+// ---------------- Report Component ----------------
+export function Report() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const navigate = useNavigate();
+
+  const reportCollection = collection(firestore, "reports");
+  const { verificationSent, emailVerified, sendVerificationEmail } = useEmailVerification(email);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!emailVerified) {
-      alert("Please verify your email before submitting.");
-      return;
-    }
+    if (!emailVerified) return alert("Please verify your email before submitting.");
 
     try {
       await addDoc(reportCollection, {
-        name: reporterName,
-        email: reporterEmail,
-        title: problemTitle,
-        description: problemDescription,
+        name,
+        email,
+        title,
+        description,
         createdAt: new Date(),
       });
 
       alert("Your report is submitted.");
-      setProblemTitle("");
-      setProblemDescription("");
+      setTitle("");
+      setDescription("");
       navigate("/options");
     } catch (error) {
       console.error("Error submitting report:", error);
@@ -76,66 +77,54 @@ export function Report() {
     <div className="container text-white text-center mt-3">
       <h1>This is a Report page</h1>
       <form onSubmit={handleSubmit}>
-        <div
-          className="card mx-auto p-3"
-          style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}
-        >
-          {/* Name Field */}
+        <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
           <input
             className="form-control w-75 mx-auto mb-3 fw-bold"
             type="text"
             placeholder="Enter Your Name"
-            value={reporterName}
-            onChange={(e) => setReporterName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
 
-          {/* Email Field with Verification Button */}
           <div className="input-group mb-3 w-75 mx-auto">
             <input
               className="form-control fw-bold"
               type="email"
               placeholder="Enter Your Email"
-              value={reporterEmail}
-              onChange={(e) => setReporterEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <button
               className="btn btn-warning fw-bold"
               type="button"
               onClick={sendVerificationEmail}
-              disabled={verificationEmailSent}
+              disabled={verificationSent}
             >
-              {verificationEmailSent ? "Verification Sent" : "Send Verification Email"}
+              {verificationSent ? "Verification Sent" : "Send Verification Email"}
             </button>
           </div>
 
-          {/* Problem Title Field */}
           <input
             className="form-control mb-3 fw-bold"
             type="text"
             placeholder="Enter Problem Title"
-            value={problemTitle}
-            onChange={(e) => setProblemTitle(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
 
-          {/* Problem Description Field */}
           <textarea
             className="form-control mb-3 fw-bold"
             rows="6"
             placeholder="Enter your Problem Description"
-            value={problemDescription}
-            onChange={(e) => setProblemDescription(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
           />
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="btn w-100 text-white fs-5 fw-bold"
-            style={{ backgroundColor: "#FF8C00" }}
-          >
+          <button type="submit" className="btn w-100 text-white fs-5 fw-bold" style={{ backgroundColor: "#FF8C00" }}>
             SUBMIT
           </button>
         </div>
@@ -144,7 +133,7 @@ export function Report() {
   );
 }
 
-// ---------- Help Component ----------
+// ---------------- Help Component ----------------
 export function Help() {
   return (
     <div className="container text-white text-center mt-3">
@@ -153,7 +142,7 @@ export function Help() {
   );
 }
 
-// ---------- Mail Component ----------
+// ---------------- Mail Component ----------------
 export function Mail() {
   return (
     <div className="container text-white text-center mt-3">
@@ -164,71 +153,31 @@ export function Mail() {
   );
 }
 
-// ---------- Feedback Component ----------
-
+// ---------------- Feedback Component ----------------
 export function Feedback() {
-  const [problemAdvantages, setProblemAdvantages] = useState("");
-  const [problemDisadvantages, setProblemDisadvantages] = useState("");
-  const [reporterEmail, setReporterEmail] = useState("");
-  const [verificationEmailSent, setVerificationEmailSent] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
+  const [advantages, setAdvantages] = useState("");
+  const [disadvantages, setDisadvantages] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const feedbackCollection = collection(firestore, "feedback");
-
-  // Send verification email to the provided email
-  const sendVerificationEmail = async () => {
-    const actionCodeSettings = {
-      url: "http://localhost:3000/verify-email", // Replace with your website's verification URL
-      handleCodeInApp: true,
-    };
-
-    try {
-      await sendSignInLinkToEmail(auth, reporterEmail, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", reporterEmail); // Store email for future login
-      alert("Verification email sent to " + reporterEmail);
-      setVerificationEmailSent(true);
-    } catch (error) {
-      console.error("Error sending verification email:", error);
-      alert("Failed to send verification email. Please try again.");
-    }
-  };
-
-  // Check if email is verified
-  const checkEmailVerification = async () => {
-    const email = window.localStorage.getItem("emailForSignIn");
-    if (email && email === reporterEmail) {
-      setEmailVerified(true);
-      alert("Email verified successfully!");
-    } else {
-      alert("Please verify your email first.");
-    }
-  };
+  const { verificationSent, emailVerified, sendVerificationEmail } = useEmailVerification(email);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Check if email is verified before submitting
-    if (!emailVerified) {
-      alert("Please verify your email before submitting.");
-      return;
-    }
-
-    if (!problemAdvantages.trim() || !problemDisadvantages.trim()) {
-      alert("Please fill in both fields before submitting.");
-      return;
-    }
+    if (!emailVerified) return alert("Please verify your email before submitting.");
+    if (!advantages.trim() || !disadvantages.trim()) return alert("Please fill in both fields.");
 
     try {
       await addDoc(feedbackCollection, {
-        advantages: problemAdvantages,
-        disadvantages: problemDisadvantages,
+        advantages,
+        disadvantages,
         createdAt: new Date(),
       });
 
       alert("Feedback submitted successfully!");
-      setProblemAdvantages("");
-      setProblemDisadvantages("");
+      setAdvantages("");
+      setDisadvantages("");
       navigate("/options");
     } catch (error) {
       console.error("Error saving feedback:", error);
@@ -240,67 +189,45 @@ export function Feedback() {
     <div className="container text-white text-center mt-3">
       <h1>This is a Feedback page</h1>
 
-      <div className="card mb-3 mx-auto" style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}>
-        {/* Email Field with Verification Button */}
-        <div className="input-group m-3 w-75 mx-auto">
-          <input
-            className="form-control fw-bold"
-            type="email"
-            placeholder="Enter Your Email"
-            value={reporterEmail}
-            onChange={(e) => setReporterEmail(e.target.value)}
-            required
-          />
-          <button
-            className="btn btn-warning fw-bold"
-            type="button"
-            onClick={sendVerificationEmail}
-            disabled={verificationEmailSent}
-          >
-            {verificationEmailSent ? "Verified" : "Verify"}
-          </button>
-        </div>
-      </div>
+
 
       <form className="row g-4" onSubmit={handleSubmit}>
-        <div className="col-12 col-md-6">
-          <div
-            className="card mx-auto p-3"
-            style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}
-          >
-            <textarea
-              className="form-control fw-bold fs-5"
-              rows="6"
-              placeholder="Enter Advantages"
-              value={problemAdvantages}
-              onChange={(e) => setProblemAdvantages(e.target.value)}
+        {[advantages, disadvantages].map((val, idx) => (
+          <div className="col-12 col-md-6" key={idx}>
+            <div className="card mx-auto p-3" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
+              <textarea
+                className="form-control fw-bold fs-5"
+                rows="6"
+                placeholder={idx === 0 ? "Enter Advantages" : "Enter Disadvantages"}
+                value={idx === 0 ? advantages : disadvantages}
+                onChange={(e) => (idx === 0 ? setAdvantages(e.target.value) : setDisadvantages(e.target.value))}
+                required
+              />
+            </div>
+          </div>
+        ))}
+        <div className="card mb-3 mx-auto" style={{ backgroundColor: "#804600", maxWidth: "500px" }}>
+          <div className="input-group m-3 w-75 mx-auto">
+            <input
+              className="form-control fw-bold"
+              type="email"
+              placeholder="Enter Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
-            ></textarea>
+            />
+            <button
+              className="btn btn-warning fw-bold"
+              type="button"
+              onClick={sendVerificationEmail}
+              disabled={verificationSent}
+            >
+              {verificationSent ? "Verified" : "Verify"}
+            </button>
           </div>
         </div>
-
-        <div className="col-12 col-md-6">
-          <div
-            className="card mx-auto p-3"
-            style={{ backgroundColor: "#804600", maxWidth: "500px", width: "100%" }}
-          >
-            <textarea
-              className="form-control fw-bold fs-5"
-              rows="6"
-              placeholder="Enter Disadvantages"
-              value={problemDisadvantages}
-              onChange={(e) => setProblemDisadvantages(e.target.value)}
-              required
-            ></textarea>
-          </div>
-        </div>
-
         <div className="text-center mt-5">
-          <button
-            type="submit"
-            className="btn w-25 text-white fs-5 fw-bold"
-            style={{ backgroundColor: "#FF8C00" }}
-          >
+          <button type="submit" className="btn w-25 text-white fs-5 fw-bold" style={{ backgroundColor: "#FF8C00" }}>
             SUBMIT
           </button>
         </div>

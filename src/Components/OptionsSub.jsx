@@ -45,7 +45,7 @@ export function Track() {
                                         disabled={loading}>
                                         {loading ? (
                                             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        ) : (<ImLocation />)}</button>
+                                        ) : (<ImLocation className="mx-auto my-auto" style={{color:"red", fontSize:"21px"}}/>)}</button>
                                 </div>
                                 <div className="mb-2">
                                     <input type="text" className="form-control"

@@ -72,25 +72,6 @@ export function NavBar() {
 
 // Intro Component with glow on scroll bottom
 export function Intro() {
-  const [glow, setGlow] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const fullHeight = document.documentElement.scrollHeight;
-
-      if (scrollTop + windowHeight >= fullHeight - 10) {
-        setGlow(true);
-      } else {
-        setGlow(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className="container">
       <p className="fs-5 text-white mt-3" style={{textAlign:"justify"}}>

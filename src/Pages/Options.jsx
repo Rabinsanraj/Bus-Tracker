@@ -1,4 +1,8 @@
 import { Cards } from "../Components/FullCompo"
+import { FaLocationCrosshairs } from "react-icons/fa6";
+import { MdNotificationsActive } from "react-icons/md";
+import { ImPriceTag } from "react-icons/im";
+import { FaHistory } from "react-icons/fa";
 
 export function Options() {
     return (
@@ -6,10 +10,10 @@ export function Options() {
             <div className="container text-white text-center mt-3">
                 <h1>This is a Options page</h1>
                 <div className="row mx-auto my-auto">
-                    <Cards icon={<i className="bx bx-current-location"></i>} title="Track" link="/track" />
-                    <Cards icon={<i className="bx bx-bell"></i>} title="Notify" link="/notify" />
-                    <Cards icon={<i className="bx bx-purchase-tag"></i>} title="Ticket Price" link="/ticketprice" />
-                    <Cards icon={<i className="bx bx-check-double"></i>} title="AllRutes" link="/allrutes" />
+                    <Cards icon={<FaLocationCrosshairs className="bx bx-current-location"style={{fontSize:"45px"}}/>} title="Track" link="/track" />
+                    <Cards icon={<MdNotificationsActive className="bx bx-bell"style={{fontSize:"45px"}}/>} title="Notify" link="/notify" />
+                    <Cards icon={<ImPriceTag className="bx bx-purchase-tag"style={{fontSize:"45px"}}/>} title="Ticket Price" link="/ticketprice" />
+                    <Cards icon={<FaHistory className="bx bx-check-double"style={{fontSize:"45px"}}/>} title="History" link="/allrutes" />
                 </div>
             </div>
         </>

@@ -6,7 +6,7 @@
   margin: 20px auto;
   position: relative;
   box-sizing: border-box;
-  animation: rotationBack 2s ease-in-out infinite reverse;
+  animation: rotationBack 1s ease-in-out infinite reverse;
 }
 .loader::before {
   content: '';  
@@ -15,16 +15,16 @@
   top: 0;
   transform: rotate(45deg);
   position: absolute;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   background: #FF8C00;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 .loader::after {
   content: '';  
   box-sizing: border-box;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   position: absolute;
   left: 50%;

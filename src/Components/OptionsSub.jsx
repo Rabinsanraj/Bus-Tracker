@@ -95,6 +95,29 @@ export function Track() {
 }
 
 export function Notify() {
+  
+  const [currentLocation, setCurrentLocation] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const getLocation = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchIsOnWater();
+      const locationName =
+        data?.address?.road ||
+        data?.address?.village ||
+        data?.address?.town ||
+        data?.address?.city ||
+        "Unknown";
+      setCurrentLocation(locationName);
+    } catch (error) {
+      console.error("Failed to get location:", error);
+      setCurrentLocation("Unavailable");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="container mt-4">
       <div className="row justify-content-center">
@@ -105,13 +128,28 @@ export function Notify() {
                 TRACK YOUR BUS
               </h5>
               <form>
-                <div className="mb-3">
+                <div className="mb-3 input-group">
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Current Location"
+                    value={currentLocation}
+                    readOnly
                     required
                   />
+                  <button
+                    type="button"
+                    className="btn btn-warning fw-bold"
+                    onClick={getLocation}
+                    title="Get Current Location"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <span className="spinner-border spinner-border-sm" />
+                    ) : (
+                      <ImLocation style={{ color: "red", fontSize: "21px" }} />
+                    )}
+                  </button>
                 </div>
                 <div className="form-check d-flex align-items-center gap-2 mb-3">
                   <input

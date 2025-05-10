@@ -152,11 +152,11 @@ export function Help() {
 export function HelpSub(){
     return(
         <div className="container text-center text-white mt-5">
-            <h1>0000000000</h1>
-            <h1>0000000000</h1>
-            <h1>0000000000</h1>
-            <h1>0000000000</h1>
-            <h1>0000000000</h1>
+            <a>0000000000</a>
+            <a>0000000000</a>
+            <a>0000000000</a>
+            <a>0000000000</a>
+            <a>0000000000</a>
         </div>
     )
 }

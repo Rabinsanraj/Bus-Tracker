@@ -10,10 +10,9 @@ export function Contact() {
     <div className="container text-white text-center mt-3">
       <h1>This is a contact page</h1>
       <div className="row mx-auto my-auto">
-        <Cards icon={<MdReport style={iconStyle} />} title="Report" link="/report" />
-        <Cards icon={<MdOutlineSupportAgent style={iconStyle} />} title="Help" link="/help" />
-        <Cards icon={<IoIosMail style={iconStyle} />} title="Mail" link="/mail" />
-        <Cards icon={<RiFeedbackFill style={iconStyle} />} title="Feedback" link="/feedback" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<MdReport style={iconStyle} />} title="Report" link="/report" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<MdOutlineSupportAgent style={iconStyle} />} title="Help" link="/help" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<RiFeedbackFill style={iconStyle} />} title="Feedback" link="/feedback" />
       </div>
     </div>
   );

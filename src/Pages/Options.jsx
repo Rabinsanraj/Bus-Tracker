@@ -11,10 +11,10 @@ export function Options() {
     <div className="container text-white text-center mt-3">
       <h1>This is an Options page</h1>
       <div className="row mx-auto my-auto">
-        <Cards icon={<FaLocationCrosshairs style={iconStyle} />} title="Track" link="/track" />
-        <Cards icon={<MdNotificationsActive style={iconStyle} />} title="Notify" link="/notify" />
-        <Cards icon={<ImPriceTag style={iconStyle} />} title="Ticket Price" link="/ticketprice" />
-        <Cards icon={<FaHistory style={iconStyle} />} title="History" link="/allrutes" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-3 pb-3"} icon={<FaLocationCrosshairs style={iconStyle} />} title="Track" link="/track" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-3 pb-3"} icon={<MdNotificationsActive style={iconStyle} />} title="Notify" link="/notify" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-3 pb-3"} icon={<ImPriceTag style={iconStyle} />} title="Ticket Price" link="/ticketprice" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-3 pb-3"} icon={<FaHistory style={iconStyle} />} title="History" link="/allrutes" />
       </div>
     </div>
   );

@@ -114,9 +114,9 @@ export function Intro() {
 }
 
 // Cards Component
-export function Cards({ icon, title, link }) {
+export function Cards({ icon, title, link,cardres }) {
   return (
-    <div className="col-sm-12 col-md-6 col-lg-3 pb-3">
+    <div className={cardres}>
       <Link to={link} className="text-decoration-none">
         <div className="card w-auto" style={{ backgroundColor: "#FF8C00", textShadow: "2px 2px 5px black" }}>
           <div className="card-body text-white">

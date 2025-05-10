@@ -165,8 +165,7 @@ export function Notify() {
                 <button
                   type="submit"
                   className="btn text-white fw-bold w-100 fs-5"
-                  style={buttonStyle}
-                >
+                  style={buttonStyle}>
                   Search
                 </button>
               </form>

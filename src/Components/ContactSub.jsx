@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
 import { auth, firestore } from "../FireBase.config";
 import { sendSignInLinkToEmail } from "firebase/auth";
+import { Cards } from "./FullCompo";
+import { TbPhoneCall } from "react-icons/tb";
+import { MdOutlineAttachEmail,MdMarkUnreadChatAlt } from "react-icons/md";
+
+
+const iconStyle = { fontSize: "45px" };
 
 const useEmailVerification = (email) => {
   const [verificationSent, setVerificationSent] = useState(false);
@@ -132,19 +138,24 @@ export function Help() {
   return (
     <div className="container text-white text-center mt-3">
       <h1>This is a Help page</h1>
+      <div className="row mx-auto my-auto">
+       <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<TbPhoneCall style={iconStyle} />} title="+91 7868067207" /> 
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<MdOutlineAttachEmail style={iconStyle}/>} title="robinsanraj207@gmail.com" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<MdMarkUnreadChatAlt style={iconStyle} />} title="Chat" />
+      </div>
     </div>
   );
 }
 
-export function Mail() {
-  return (
-    <div className="container text-white text-center mt-3">
-      <h1 className="fs-6 fw-bold">
-        <i className="bx bx-envelope fs-3"></i> Easycar@gmail.com
-      </h1>
-    </div>
-  );
-}
+// export function Mail() {
+//   return (
+//     <div className="container text-white text-center mt-3">
+//       <h1 className="fs-6 fw-bold">
+//         <i className="bx bx-envelope fs-3"></i> Easycar@gmail.com
+//       </h1>
+//     </div>
+//   );
+// }
 
 export function Feedback() {
   const [advantages, setAdvantages] = useState("");

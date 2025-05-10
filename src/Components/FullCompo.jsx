@@ -38,7 +38,7 @@ export function NavBar() {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Suspense fallback={<div className="loader"></div>}>
+    <Suspense fallback={<span className="loader mt-5"></span>}>
       <HashRouter>
         <nav className="navbar navbar-expand-lg pt-1 pb-1 position-sticky top-0 z-3" style={{ backgroundColor: "#804600" }}>
           <div className="container-fluid">

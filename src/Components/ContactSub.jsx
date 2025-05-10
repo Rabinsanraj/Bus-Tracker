@@ -7,6 +7,7 @@ import { sendSignInLinkToEmail } from "firebase/auth";
 const useEmailVerification = (email) => {
   const [verificationSent, setVerificationSent] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  // this is a comment
 
   const sendVerificationEmail = async () => {
     const actionCodeSettings = {

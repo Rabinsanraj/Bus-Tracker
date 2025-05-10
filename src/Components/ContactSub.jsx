@@ -133,30 +133,34 @@ export function Report() {
     </div>
   );
 }
-
+// HELP START
 export function Help() {
   return (
     <div className="container text-white text-center mt-3">
       <h1>This is a Help page</h1>
       <div className="row mx-auto my-auto">
-       <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<TbPhoneCall style={iconStyle} />} title="+91 7868067207" /> 
-        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<MdOutlineAttachEmail style={iconStyle}/>} title="robinsanraj207@gmail.com" />
-        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} icon={<MdMarkUnreadChatAlt style={iconStyle} />} title="Chat" />
+       <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"}
+        icon={<TbPhoneCall style={iconStyle} />} title="Helpline"link="/helpsub"/> 
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} 
+        icon={<MdOutlineAttachEmail style={iconStyle}/>} title="robinsanraj207@gmail.com" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} 
+        icon={<MdMarkUnreadChatAlt style={iconStyle} />} title="Chat" />
       </div>
     </div>
   );
 }
-
-// export function Mail() {
-//   return (
-//     <div className="container text-white text-center mt-3">
-//       <h1 className="fs-6 fw-bold">
-//         <i className="bx bx-envelope fs-3"></i> Easycar@gmail.com
-//       </h1>
-//     </div>
-//   );
-// }
-
+export function HelpSub(){
+    return(
+        <div className="container text-center text-white mt-5">
+            <h1>0000000000</h1>
+            <h1>0000000000</h1>
+            <h1>0000000000</h1>
+            <h1>0000000000</h1>
+            <h1>0000000000</h1>
+        </div>
+    )
+}
+// HELP END
 export function Feedback() {
   const [advantages, setAdvantages] = useState("");
   const [disadvantages, setDisadvantages] = useState("");

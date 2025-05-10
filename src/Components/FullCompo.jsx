@@ -16,6 +16,7 @@ const Report = lazy(() => import('./ContactSub').then(m => ({ default: m.Report 
 const Help = lazy(() => import('./ContactSub').then(m => ({ default: m.Help })));
 const Mail = lazy(() => import('./ContactSub').then(m => ({ default: m.Mail })));
 const Feedback = lazy(() => import('./ContactSub').then(m => ({ default: m.Feedback })));
+const HelpSub = lazy(()=> import('./ContactSub').then(m=>({default: m.HelpSub})))
 
 // const [Report, Help, Mail, Feedback] = lazy(()=>import('./ContactSub').then(m=>{
 //   for (const key in object) {
@@ -77,6 +78,7 @@ export function NavBar() {
           {/* Contact Sub-Routes */}
           <Route path="/report" element={<Report />} />
           <Route path="/help" element={<Help />} />
+           <Route path="/helpsub" element={<HelpSub />} />
           <Route path="/mail" element={<Mail />} />
           <Route path="/feedback" element={<Feedback />} />
 

@@ -6,7 +6,7 @@
   margin: 20px auto;
   position: relative;
   box-sizing: border-box;
-  animation: rotationBack 1s ease-in-out infinite reverse;
+  animation: rotationBack 0.5s ease-in-out infinite reverse;
 }
 .loader::before {
   content: '';  

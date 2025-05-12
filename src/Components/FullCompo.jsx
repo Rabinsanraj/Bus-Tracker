@@ -1,5 +1,5 @@
 import { HashRouter, Routes, Route, Link, useLocation } from "react-router-dom";
-import { lazy,Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { IoBusSharp } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import "../App.css"
@@ -16,7 +16,8 @@ const Report = lazy(() => import('./ContactSub').then(m => ({ default: m.Report 
 const Help = lazy(() => import('./ContactSub').then(m => ({ default: m.Help })));
 const Mail = lazy(() => import('./ContactSub').then(m => ({ default: m.Mail })));
 const Feedback = lazy(() => import('./ContactSub').then(m => ({ default: m.Feedback })));
-const HelpSub = lazy(()=> import('./ContactSub').then(m=>({default: m.HelpSub})))
+const HelpSub = lazy(() => import('./ContactSub').then(m => ({ default: m.HelpSub })))
+const MailSub = lazy(() => import('./ContactSub').then(m => ({ default: m.MailSub })))
 
 // const [Report, Help, Mail, Feedback] = lazy(()=>import('./ContactSub').then(m=>{
 //   for (const key in object) {
@@ -48,16 +49,13 @@ export function NavBar() {
               <span className="fs-3 ms-2 fw-bold" style={{ color: "#FF8C00", textShadow: "3px 3px 5px black" }}>GBT</span>
             </Link>
 
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setExpanded(!expanded)}
+            <button className="navbar-toggler" type="button" onClick={() => setExpanded(!expanded)}
               style={{ backgroundColor: "#FF8C00" }}>
               <GiHamburgerMenu className="bx bx-menu text-white" style={{ fontSize: "35px" }} />
             </button>
 
             <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`} id="navbarNav">
-              <ul className="navbar-nav ms-auto" style={{ textShadow: "3px 3px 5px black" }}>
+              <ul className="navbar-nav ms-auto" style={{ textShadow: "3px 3px 5px black",}}>
                 <li className="nav-item">
                   <Link className="nav-link me-5 fs-5 text-light fw-bold" onClick={() => setExpanded(false)} to="/options">Options</Link>
                 </li>
@@ -78,8 +76,9 @@ export function NavBar() {
           {/* Contact Sub-Routes */}
           <Route path="/report" element={<Report />} />
           <Route path="/help" element={<Help />} />
-           <Route path="/helpsub" element={<HelpSub />} />
+          <Route path="/helpsub" element={<HelpSub />} />
           <Route path="/mail" element={<Mail />} />
+           <Route path="/mailsub" element={<MailSub />} />
           <Route path="/feedback" element={<Feedback />} />
 
           {/* Options Sub-Routes */}
@@ -116,7 +115,7 @@ export function Intro() {
 }
 
 // Cards Component
-export function Cards({ icon, title, link,cardres }) {
+export function Cards({ icon, title, link, cardres }) {
   return (
     <div className={cardres}>
       <Link to={link} className="text-decoration-none">
@@ -129,4 +128,18 @@ export function Cards({ icon, title, link,cardres }) {
       </Link>
     </div>
   );
+}
+
+export function HelpSubCard({title, number,hreftitle}) {
+  return (
+    <div className="col-sm-12 col-md-6 col-lg-3 pb-3">
+      <a className="text-decoration-none" href={hreftitle}>
+        <div className="card w-auto" style={{ backgroundColor: "#FF8C00", textShadow: "2px 2px 5px black" }}>
+          <div className="card-body text-white">
+          <span className="fs-4 fw-bold">{title}</span> 
+          </div>
+        </div>
+      </a>
+    </div>
+  )
 }

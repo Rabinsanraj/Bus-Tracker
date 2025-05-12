@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
 import { auth, firestore } from "../FireBase.config";
 import { sendSignInLinkToEmail } from "firebase/auth";
-import { Cards } from "./FullCompo";
+import { Cards, HelpSubCard } from "./FullCompo";
 import { TbPhoneCall } from "react-icons/tb";
-import { MdOutlineAttachEmail,MdMarkUnreadChatAlt } from "react-icons/md";
+import { MdOutlineAttachEmail, MdMarkUnreadChatAlt } from "react-icons/md";
 
 
 const iconStyle = { fontSize: "45px" };
@@ -139,26 +139,40 @@ export function Help() {
     <div className="container text-white text-center mt-3">
       <h1>This is a Help page</h1>
       <div className="row mx-auto my-auto">
-       <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"}
-        icon={<TbPhoneCall style={iconStyle} />} title="Helpline"link="/helpsub"/> 
-        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} 
-        icon={<MdOutlineAttachEmail style={iconStyle}/>} title="robinsanraj207@gmail.com" />
-        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"} 
-        icon={<MdMarkUnreadChatAlt style={iconStyle} />} title="Chat" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"}
+          icon={<TbPhoneCall style={iconStyle} />} title="Helpline" link="/helpsub" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"}
+          icon={<MdOutlineAttachEmail style={iconStyle} />} title="robinsanraj207@gmail.com" link="/mailsub" />
+        <Cards cardres={"col-sm-12 col-md-6 col-lg-4 pb-3"}
+          icon={<MdMarkUnreadChatAlt style={iconStyle} />} title="Chat" />
       </div>
     </div>
   );
 }
-export function HelpSub(){
-    return(
-        <div className="container text-center text-white mt-5">
-            <a>0000000000</a>
-            <a>0000000000</a>
-            <a>0000000000</a>
-            <a>0000000000</a>
-            <a>0000000000</a>
-        </div>
-    )
+export function HelpSub() {
+  return (
+    <div className="container text-center text-white mt-5">
+      <div className="row mx-auto my-auto">
+       <HelpSubCard hreftitle="tel:7868067207" title="Call" />
+        <HelpSubCard hreftitle="tel:7868067207" title="Call" />
+        <HelpSubCard hreftitle="tel:7868067207" title="Call" />
+        <HelpSubCard hreftitle="tel:7868067207" title="Call" />
+      </div>
+    </div>
+  )
+}
+
+export function MailSub() {
+  return (
+    <div className="container text-center text-white mt-5">
+      <div className="row mx-auto my-auto">
+       <HelpSubCard hreftitle="mailto:someone@example.com" title="Send Email" />
+        <HelpSubCard hreftitle="mailto:someone@example.com" title="Send Email" />
+        <HelpSubCard hreftitle="mailto:someone@example.com" title="Send Email" />
+        <HelpSubCard hreftitle="mailto:someone@example.com" title="Send Email" />
+      </div>
+    </div>
+  )
 }
 // HELP END
 export function Feedback() {
